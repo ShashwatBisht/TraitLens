@@ -1,32 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Personality Test System{% endblock %}
+{% block title %}Test History - Personality Test System{% endblock %}
 
 {% block content %}
 <div class="container my-5">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Welcome, {{ current_user.username }}!</h1>
-            <div class="card shadow mb-4">
-                <div class="card-header">
-                    <h2>Your Dashboard</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Your Personality Test History</h2>
                 </div>
                 <div class="card-body">
-                    <div class="d-grid gap-2 mb-4">
-                        <form action="{{ url_for('start_test') }}" method="post">
-                            <input type="hidden" name="screen_width" id="screen_width" value="">
-                            <input type="hidden" name="page_load_time" id="page_load_time" value="">
-                            <input type="hidden" name="screen_height" id="screen_height" value="">
-                            <button type="submit" class="btn btn-primary btn-lg w-100">Take Personality Test</button>
-                        </form>
-                    </div>
-                    
-                    <script>
-                        document.getElementById('screen_width').value = window.screen.width;
-                        document.getElementById('screen_height').value = window.screen.height;
-                        document.getElementById('page_load_time').value = Math.floor(Date.now() / 1000);
-                    </script>                    
-                    <h3>Your Test History</h3>
                     {% if test_sessions %}
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -34,13 +18,18 @@
                                     <tr>
                                         <th>Date</th>
                                         <th>Personality Type</th>
+                                        <th>Extraversion</th>
+                                        <th>Emotional Stability</th>
+                                        <th>Agreeableness</th>
+                                        <th>Conscientiousness</th>
+                                        <th>Openness</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for session in test_sessions %}
                                     <tr>
-                                        <td>{{ session.end_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>{{ session.end_time.strftime('%Y-%m-%d') }}</td>
                                         <td>
                                             {% if session.cluster_result is not none %}
                                                 {{ CLUSTER_DESCRIPTIONS[session.cluster_result]["name"] }}
@@ -48,6 +37,12 @@
                                                 Uncategorized
                                             {% endif %}
                                         </td>
+                                        {% set scores = calculate_trait_scores(session.id) %}
+                                        <td>{{ "%.1f"|format(scores['EXT']) }}</td>
+                                        <td>{{ "%.1f"|format(scores['EST']) }}</td>
+                                        <td>{{ "%.1f"|format(scores['AGR']) }}</td>
+                                        <td>{{ "%.1f"|format(scores['CSN']) }}</td>
+                                        <td>{{ "%.1f"|format(scores['OPN']) }}</td>
                                         <td>
                                             <a href="{{ url_for('results', session_id=session.id) }}" class="btn btn-sm btn-info">View Results</a>
                                         </td>
@@ -58,7 +53,8 @@
                         </div>
                     {% else %}
                         <div class="alert alert-info">
-                            You haven't taken any personality tests yet. Take your first test now!
+                            <p>You haven't taken any personality tests yet.</p>
+                            <a href="{{ url_for('start_test') }}" class="btn btn-primary">Take Your First Test</a>
                         </div>
                     {% endif %}
                 </div>

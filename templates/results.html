@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Your Personality Results{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h2 class="text-center mb-0">Your Big Five Personality Profile</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-primary">
+                        <h3 class="mb-2">Your Personality Type: {{ cluster.name }}</h3>
+                        <p class="mb-0">{{ cluster.description }}</p>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-md-6 mb-5">
+                            <canvas id="resultsChart"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Trait</th>
+                                        <th>Score (1-5)</th>
+                                        <th>Level</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for trait, score in scores.items() %}
+                                    <tr>
+                                        <td>{{ trait_names[trait] }}</td>
+                                        <td>{{ "%.2f"|format(score) }}</td>
+                                        <td>
+                                            {% if score < 2 %}
+                                                <span class="badge bg-danger">Low</span>
+                                            {% elif score < 4 %}
+                                                <span class="badge bg-warning">Average</span>
+                                            {% else %}
+                                                <span class="badge bg-success">High</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4>What Do These Results Mean?</h4>
+                        <p>Your results show your relative scores on the five major dimensions of personality:</p>
+                        
+                        <ul>
+                            <li><strong>Extraversion:</strong> High scorers tend to be sociable, energetic, and outgoing. Low scorers tend to be quiet, reserved, and introspective.</li>
+                            <li><strong>Emotional Stability:</strong> High scorers tend to be calm, emotionally stable, and free from persistent negative feelings. Low scorers tend to experience more emotional distress and feelings of anxiety.</li>
+                            <li><strong>Agreeableness:</strong> High scorers tend to be friendly, cooperative, and compassionate. Low scorers tend to be more competitive and sometimes skeptical of others' intentions.</li>
+                            <li><strong>Conscientiousness:</strong> High scorers tend to be organized, reliable, and methodical. Low scorers tend to be more flexible, spontaneous, and less structured.</li>
+                            <li><strong>Openness:</strong> High scorers tend to be creative, curious, and open to new experiences. Low scorers tend to be more conventional and prefer familiar routines.</li>
+                        </ul>
+                        
+                        <div class="alert alert-info">
+                            <p class="mb-0">Remember that personality traits exist on a spectrum, and there are no "good" or "bad" personality types. Each trait combination offers unique strengths and challenges.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg">Back to Dashboard</a>
+                        {% else %}
+                            <a href="{{ url_for('register') }}" class="btn btn-success btn-lg">Create Account to Save Results</a>
+                            <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg">Take Test Again</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    const ctx = document.getElementById('resultsChart').getContext('2d');
+    
+    const chart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: [
+                {% for trait in scores %}
+                '{{ trait_names[trait] }}',
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Your Personality Profile',
+                data: [
+                    {% for trait, score in scores.items() %}
+                    {{ score }},
+                    {% endfor %}
+                ],
+                fill: true,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                pointBackgroundColor: 'rgb(54, 162, 235)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(54, 162, 235)'
+            }]
+        },
+        options: {
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    suggestedMin: 1,
+                    suggestedMax: 5
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}

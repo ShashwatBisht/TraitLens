@@ -7,11 +7,19 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #f8f9fa;
+    margin: 0;
 }
 
 /* Push footer to bottom */
-.container {
+.content-wrapper {
     flex: 1 0 auto;
+    width: 100%;
+}
+
+/* Container spacing */
+.container {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
 }
 
 /* Navbar customization */
@@ -24,22 +32,58 @@ body {
     font-size: 1.5rem;
 }
 
+/* Fix for overly wide navbar */
+.navbar .container {
+    padding-top: 0;
+    padding-bottom: 0;
+    max-width: 1140px; /* Match Bootstrap's container-lg max-width */
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Ensure navbar doesn't break at smaller sizes */
+@media (max-width: 992px) {
+    .navbar-collapse {
+        padding: 1rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+}
+
+
 /* Card styling */
 .card {
     border-radius: 0.5rem;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
 }
 
 .card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
     font-weight: bold;
+    padding: 1rem 1.25rem;
+}
+
+.card-body {
+    padding: 1.5rem;
 }
 
 /* Form styling */
+.form-control {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+}
+
 .form-control:focus {
     border-color: #0d6efd;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
@@ -47,54 +91,122 @@ body {
 
 .input-group-text {
     background-color: #f8f9fa;
+    border: 1px solid #ced4da;
 }
 
 /* Button customization */
 .btn {
     border-radius: 0.3rem;
     font-weight: 500;
-    transition: all 0.3s ease;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
 }
 
 .btn-primary {
     background-color: #0d6efd;
+    border-color: #0d6efd;
 }
 
 .btn-primary:hover {
     background-color: #0b5ed7;
+    border-color: #0a58ca;
     transform: translateY(-2px);
 }
 
 .btn-success {
     background-color: #198754;
+    border-color: #198754;
 }
 
 .btn-success:hover {
     background-color: #157347;
+    border-color: #146c43;
     transform: translateY(-2px);
 }
 
 /* Footer styling */
-.footer {
-    margin-top: 2rem;
+footer {
+    margin-top: 3rem;
     padding: 1.5rem 0;
     background-color: #f8f9fa;
     border-top: 1px solid #e9ecef;
+    flex-shrink: 0;
 }
 
 /* Add responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .card {
         margin-bottom: 1.5rem;
     }
 }
 
+@media (max-width: 768px) {
+    .container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    .card-body {
+        padding: 1.25rem;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        border-radius: 0.3rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
 /* Animation for alerts */
 .alert {
-    animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin-bottom: 1.5rem;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* Progress bar styling */
+.progress {
+    height: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    background-color: #0d6efd;
+    border-radius: 0.5rem;
+    transition: width 0.6s ease;
+}
+
+/* Table styling */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* Badge styling */
+.badge {
+    padding: 0.5em 0.75em;
+    font-weight: 500;
 }

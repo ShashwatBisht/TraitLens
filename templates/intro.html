@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Five Personality Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="text-center mb-0">Big Five Personality Test</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">This personality test is constructed with the "Big-Five Factor Markers" from the International Personality Item Pool (IPIP).</p>
+                        
+                        <p>You will be presented with a series of statements about yourself. Please rate each statement according to how accurately it describes you on a scale from 1 (Disagree) to 5 (Agree).</p>
+                        
+                        <p>Your responses will be recorded and used for research purposes. The test takes approximately 5-10 minutes to complete.</p>
+                        
+                        <div class="alert alert-info">
+                            <p>The test measures five personality dimensions:</p>
+                            <ul>
+                                <li><strong>Extraversion:</strong> Sociability, assertiveness, and emotional expressiveness</li>
+                                <li><strong>Emotional Stability:</strong> Emotional regulation and resilience to stress</li>
+                                <li><strong>Agreeableness:</strong> Trust, altruism, kindness, and other prosocial behaviors</li>
+                                <li><strong>Conscientiousness:</strong> Organization, thoroughness, and reliability</li>
+                                <li><strong>Openness:</strong> Creativity, curiosity, and preference for variety</li>
+                            </ul>
+                        </div>
+                        
+                        <form action="{{ url_for('start_test') }}" method="post">
+                            <input type="hidden" name="page_load_time" id="page_load_time" value="">
+                            <input type="hidden" name="screen_width" id="screen_width" value="">
+                            <input type="hidden" name="screen_height" id="screen_height" value="">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">Begin Test</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('page_load_time').value = Math.floor(Date.now() / 1000);
+        document.getElementById('screen_width').value = window.screen.width;
+        document.getElementById('screen_height').value = window.screen.height;
+    </script>
+</body>
+</html>
