@@ -1,5 +1,5 @@
 # TraitLens
-Personality Prediction using Social Media
+Personality Prediction using Social Media Dataset
 
 Install necessary libraries -
 
