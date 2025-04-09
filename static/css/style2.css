@@ -1,0 +1,226 @@
+/* Custom styles for the Flask Login System */
+
+/* Body styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: url('https://source.unsplash.com/1920x1080/?cat');
+    background-size: cover;
+    background-attachment: fixed;
+    margin: 0;
+}
+
+/* Push footer to bottom */
+.content-wrapper {
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+/* Container spacing */
+.container {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+/* Navbar customization */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-image: url('https://source.unsplash.com/1920x1080/?cat');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+/* Fix for overly wide navbar */
+.navbar .container {
+    padding-top: 0;
+    padding-bottom: 0;
+    max-width: 1140px; /* Match Bootstrap's container-lg max-width */
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Ensure navbar doesn't break at smaller sizes */
+@media (max-width: 992px) {
+    .navbar-collapse {
+        padding: 1rem 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+}
+
+/* Card styling */
+.card {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    background-image: url(../personality.jpeg.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    opacity: 70%;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-weight: bold;
+    padding: 1rem 1.25rem;
+    background-color: #ffffff;
+}
+
+.card-body {
+    padding: 1.5rem;
+    background-color: #ffffff;
+}
+
+/* Form styling */
+.form-control {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+}
+
+/* Button customization */
+.btn {
+    border-radius: 0.3rem;
+    font-weight: 500;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-success:hover {
+    background-color: #157347;
+    border-color: #146c43;
+    transform: translateY(-2px);
+}
+
+/* Footer styling */
+footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    flex-shrink: 0;
+    /* background-image: url('https://fgih.co.uk/wp-content/uploads/2024/05/dog-and-cat-1024x639.jpg'); */
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Add responsive adjustments */
+@media (max-width: 992px) {
+    .card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    .card-body {
+        padding: 1.25rem;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        border-radius: 0.3rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+/* Animation for alerts */
+.alert {
+    animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin-bottom: 1.5rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Progress bar styling */
+.progress {
+    height: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    background-color: #3498db;
+    border-radius: 0.5rem;
+    transition: width 0.6s ease;
+}
+
+/* Table styling */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* Badge styling */
+.badge {
+    padding: 0.5em 0.75em;
+    font-weight: 500;
+}

@@ -33,12 +33,29 @@
             border-radius: 0.5rem;
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
-            background-image: url(../personality.jpeg.jpg);
-            background-size: cover;
-            background-attachment: fixed;
-            opacity: 100%;
+            background: transparent !important; /* Remove card background */
+            border: none !important; /* Remove border */
+            box-shadow: none !important; /* Remove shadow */
+        }
+
+        .card-header {
+            background-color: rgba(52, 152, 219, 0.8) !important; /* Semi-transparent header */
+            border-bottom: none !important;
+        }
+
+        .card-body {
+            background-color: transparent !important; /* Fully transparent body */
+            color: #ffffff; /* White text for better contrast */
+        }
+
+        /* Ensure radio buttons remain visible */
+        .btn-outline-primary {
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+        .btn-outline-primary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
     </style>
     {% block extra_head %}{% endblock %}
