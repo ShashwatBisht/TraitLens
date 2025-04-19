@@ -9,6 +9,8 @@ from datetime import datetime
 import time
 import uuid
 import os
+import joblib
+import numpy as np
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -21,6 +23,13 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+
+# Load the trained KMeans model (adjust the path if needed)
+KMEANS_MODEL_PATH = os.path.join(os.path.dirname(__file__), 'clustering', 'kmeans_model.joblib')
+kmeans_model = joblib.load(KMEANS_MODEL_PATH)
+# If you used a scaler during training, load it as well:
+# SCALER_PATH = os.path.join(os.path.dirname(__file__), 'clustering', 'scaler.joblib')
+# scaler = joblib.load(SCALER_PATH)
 
 # User model (from your existing system)
 class User(UserMixin, db.Model):
@@ -352,9 +361,8 @@ def finish():
         test_session.end_elapsed = time.time() - session.get('last_answer_time', time.time())
         
         if consent:
-            # Assign to a cluster using the cluster_model function
-            trait_scores = calculate_trait_scores(test_session_id)
-            cluster = assign_to_cluster(trait_scores)
+            ordered_answers = get_ordered_responses(test_session_id)
+            cluster = assign_to_cluster(ordered_answers)
             test_session.cluster_result = cluster
             
         db.session.commit()
@@ -405,32 +413,26 @@ def calculate_trait_scores(session_id):
     
     return avg_scores
 
-def assign_to_cluster(trait_scores):
+def get_ordered_responses(session_id):
     """
-    Assign a user to a personality cluster based on their Big Five trait scores.
-    This is a placeholder for where you would integrate your clustering model.
+    Returns a list of 50 answers in the order used for model training.
     """
-    # Simple example logic (replace with your actual clustering algorithm)
-    ext = trait_scores.get('EXT', 0)
-    est = trait_scores.get('EST', 0)
-    agr = trait_scores.get('AGR', 0)
-    csn = trait_scores.get('CSN', 0)
-    opn = trait_scores.get('OPN', 0)
-    
-    # Simple heuristic assignment (replace with your model)
-    if ext < 3 and opn < 3:
-        return 0  # Reserved Traditionalists
-    elif ext > 3.5 and csn > 3.5:
-        return 1  # Outgoing Achievers
-    elif opn > 4 and est < 3:
-        return 2  # Creative Independents
-    elif agr > 4 and est < 3:
-        return 3  # Compassionate Mediators
-    elif csn > 4 and ext < 3:
-        return 4  # Analytical Problem-Solvers
-    else:
-        # Default to cluster 0 if no clear match
-        return 0
+    responses = Response.query.filter_by(session_id=session_id).all()
+    resp_dict = {r.question_code: r.answer for r in responses}
+    ordered_codes = []
+    for trait in ['EXT', 'EST', 'AGR', 'CSN', 'OPN']:
+        for i in range(1, 11):
+            ordered_codes.append(f"{trait}{i}")
+    ordered_answers = [resp_dict.get(code, 3) for code in ordered_codes]  # default to 3 if missing
+    return ordered_answers
+
+def assign_to_cluster(responses):
+    """
+    Assign a user to a personality cluster using the trained KMeans model.
+    Expects a list of 50 answers, ordered as in model training.
+    """
+    cluster = kmeans_model.predict([responses])[0]
+    return int(cluster)
 
 @app.route('/results/<session_id>')
 def results(session_id):
