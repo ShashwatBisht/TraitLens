@@ -45,7 +45,7 @@
         }
 
         .card-body {
-            background-color: rgba(255, 255, 255, 0.7) !important; /* Semi-transparent white background */
+            background-color: rgba(255, 255, 255, 0.8) !important; /* Semi-transparent white background */
             color: #000000; /* Black text for better readability */
             border-radius: 0 0 0.5rem 0.5rem;
             padding: 1.5rem;
@@ -53,12 +53,25 @@
 
         /* Ensure radio buttons remain visible */
         .btn-outline-primary {
+            color: #000000; /* Dark text for readability */
+            background-color: rgba(255, 255, 255, 0.95); /* Light background */
+            border-color: #3498db; /* Match the theme color */
+            border-width: 2px;
+        }
+
+        .btn-outline-primary:hover,
+        .btn-check:checked + .btn-outline-primary {
+            background-color: #3498db;
+            color: #ffffff;
+            border-color: #2980b9;
+        }
+        /* .btn-outline-primary {
             color: #ffffff;
             border-color: #ffffff;
         }
         .btn-outline-primary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+            background-color: rgba(255, 255, 255, 0.85);
+        } */
     </style>
     {% block extra_head %}{% endblock %}
 </head>
